@@ -12,13 +12,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
   setTimeout(() => {
     // check the user hasn't changed the url since
-    if (isZoomJoinPage(tab.url)) {
-      try {
-        chrome.tabs.remove(tab.id);
+    chrome.tabs.get(tab.id, (reloadedTab) => {
+      if (!reloadedTab) {
+        return;
       }
-      catch (err) {
-        console.log(`failed to close tab ${tab.id} with error`, err);
+
+      if (isZoomJoinPage(reloadedTab.url)) {
+        chrome.tabs.remove(reloadedTab.id);
       }
-    }
+    });
   }, AUTO_CLOSE_TIME);
 });
