@@ -1,0 +1,23 @@
+{
+  "name": "Auto Close Zoom Join Tab",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Automatically close zoom join tabs after a period of time",
+  "homepage_url": "https://github.com/gileze33/chrome-auto-close-zoom",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "scripts": [
+      "src/bg/background.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "tabs",
+    "*zoom.us*"
+  ]
+}
