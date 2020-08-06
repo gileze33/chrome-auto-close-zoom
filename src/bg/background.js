@@ -5,22 +5,20 @@ function isZoomJoinPage(url) {
   return ZOOM_JOIN_URL_REGEX.test(url);
 }
 
-chrome.tabs.onUpdated.addListener((activeInfo) => {  
-  chrome.tabs.getSelected(null, function(tab) {
-    if (!isZoomJoinPage(tab.url)) {
-      return;
-    }
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {  
+  if (!isZoomJoinPage(tab.url)) {
+    return;
+  }
 
-    setTimeout(() => {
-      // check the user hasn't changed the url since
-      if (isZoomJoinPage(tab.url)) {
-        try {
-          chrome.tabs.remove(tab.id);
-        }
-        catch (err) {
-          console.log(`failed to close tab ${tab.id} with error`, err);
-        }
+  setTimeout(() => {
+    // check the user hasn't changed the url since
+    if (isZoomJoinPage(tab.url)) {
+      try {
+        chrome.tabs.remove(tab.id);
       }
-    }, AUTO_CLOSE_TIME);
-  });
+      catch (err) {
+        console.log(`failed to close tab ${tab.id} with error`, err);
+      }
+    }
+  }, AUTO_CLOSE_TIME);
 });
